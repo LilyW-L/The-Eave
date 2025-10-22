@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>THE EAVE</title>
+
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    html, body { 
+        margin: 0; 
+        padding: 0;
+        font-family: 'Raleway', sans-serif; 
+        background:#000; 
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    body.no-scroll { 
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+
+    .hero {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .image-compare-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .image-compare-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .image-compare-base {
+        position: relative;
+        z-index: 0;
+        width: 100%;
+        display: block;
+    }
+
+    .image-compare-overlay {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+        cursor: ew-resize;
+        opacity: 1;
+        pointer-events: none;
+        transition: opacity 1s ease;
+        transform: translateX(-50%);
+    }
+
+    .image-compare-top {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .image-compare-v15-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-compare-v15-overlay.active {
+        opacity: 0.3;
+    }
+
+    .image-compare-v15-overlay img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .image-compare-slider {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.5);
+        z-index: 6;
+        cursor: ew-resize;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+    }
+
+    .image-compare-slider.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .image-compare-slider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .image-compare-slider::after {
+        content: '⟷';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 1;
+    }
+
+    .hero__brand {
+      position: absolute; top: 1rem; left: 1rem; color:#fff; z-index:4;
+      font-weight:600; letter-spacing:.06em; font-size: clamp(.9rem,2vw,1.25rem);
+    }
+
+    .content {
+      position: absolute; top: 5%; left: 50%; transform: translateX(-50%);
+      color:#fff; z-index:5; padding: 0 1rem; max-width: 800px; width: 80%; text-align: center;
+    }
+
+    @keyframes titleFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+        }
+        100% {
+            opacity: 0.7;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .content h1 {
+        margin: 0;
+        font-weight: 600;
+        letter-spacing: .06em;
+        line-height: 1.2;
+        font-size: clamp(2rem, 8vw, 5rem);
+        opacity: 0.7;
+        animation: titleFadeIn 3s ease-out forwards;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    @supports (font-size:1cqw){ 
+        .content h1{ 
+            font-size: clamp(2rem, 8cqw, 5rem);
+        } 
+    }
+
+    .desc, .desc--show {
+        margin-top: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        color: #d0d0d0;
+        font-size: clamp(.5rem, 1.8vw, 1.3rem);
+        opacity: 0;
+    }
+
+    @supports (font-size:1cqw) {
+        .desc, .desc--show {
+            font-size: clamp(.5rem, 1.8cqw, 1.3rem);
+        }
+    }
+
+    @keyframes fadeInParagraph {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .desc--show {
+      display: block;
+      animation: fadeInParagraph 2s ease-out 1s forwards;
+      font-size: clamp(.4rem, 1.6vw, 1.15rem);
+    }
+
+    @supports (font-size:1cqw) {
+        .desc--show {
+            font-size: clamp(.4rem, 1.6cqw, 1.15rem);
+        }
+    }
+
+    @keyframes floatCloud {
+        0% {
+            transform: translate(-50%, -50%);
+        }
+        50% {
+            transform: translate(-48%, -52%) scale(1.02);
+        }
+        100% {
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .cloud-overlay {
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        height: auto;
+        opacity: 0.5;
+        z-index: 3;
+        animation: floatCloud 8s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .cloud-overlay-2 {
+        position: absolute;
+        top: 10%;
+        left: 90%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        opacity: 0.4;
+        z-index: 3;
+        animation: floatCloud 10s ease-in-out infinite;
+        animation-delay: 2s;
+        pointer-events: none;
+    }
+
+    .helicopter-overlay {
+        position: absolute;
+        top: 10%;
+        left: 85%;
+        transform: translate(-50%, -50%);
+        width: 15%;
+        height: auto;
+        opacity: 0.6;
+        z-index: 3;
+        filter: grayscale(100%);
+        pointer-events: none;
+    }
+
+    #project-desc {
+        position: relative;
+        top: 8vh;
+        margin-top: 1.5rem;
+        text-align: justify;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 700px;
+        padding: 0 2rem;
+        letter-spacing: 0.02em;
+        word-spacing: 0.1em;
+        line-height: 2;
+    }
+
+    .overlays-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 3;
+    }
+
+    .iris-button {
+        position: absolute;
+        top: 33%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 25px;
+        height: 25px;
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        opacity: 1;
+    }
+
+    .iris-button::before,
+    .iris-button::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+    }
+
+    .iris-button::before {
+        width: 12px;
+        height: 2px;
+    }
+
+    .iris-button::after {
+        width: 2px;
+        height: 12px;
+    }
+
+    .iris-button:hover::before {
+        width: 16px;
+    }
+
+    .iris-button:hover::after {
+        height: 16px;
+    }
+
+    @keyframes flashButton {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+
+    .iris-button.active {
+        opacity: 1;
+        animation: flashButton 2s ease-in-out infinite;
+    }
+
+    .iris-button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translate(-50%, -50%) scale(1.5);
+        animation: none;
+    }
+
+    .iris-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .iris-modal.active {
+        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .iris-modal-content {
+        position: relative;
+        width: 60vw;
+        max-width: 600px;
+        height: 60vh;
+        max-height: 600px;
+    }
+
+    .iris-compare-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: ew-resize;
+    }
+
+    .iris-compare-base {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+    }
+
+    .iris-compare-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .iris-compare-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: auto;
+        max-width: none;
+        object-fit: contain;
+    }
+
+    .iris-compare-slider {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 10;
+        cursor: ew-resize;
+        transform: translateX(-50%);
+    }
+
+    .iris-compare-slider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .iris-compare-slider::after {
+        content: '⟷';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: rgba(0, 0, 0, 0.8);
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 1;
+    }
+
+    .iris-label {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        pointer-events: none;
+        z-index: 11;
+        white-space: nowrap;
+        transition: opacity 0.3s ease;
+    }
+
+    .iris-label-left {
+        left: 5%;
+    }
+
+    .iris-label-right {
+        right: 5%;
+    }
+
+    .iris-label-left.hidden {
+        opacity: 0;
+    }
+
+    .iris-label-right.hidden {
+        opacity: 0;
+    }
+
+    @media (max-width: 768px) {
+        .iris-label {
+            font-size: 10px;
+        }
+        .iris-label-left {
+            left: 3%;
+        }
+        .iris-label-right {
+            right: 3%;
+        }
+    }
+  </style>
+</head>
+<body>
+    <main class="hero" id="hero">
+        <div class="hero__brand">WANLU LIU</div>
+
+        <button class="iris-button active" id="irisButton"></button>
+
+        <div class="iris-modal" id="irisModal">
+            <div class="iris-modal-content">
+                <div class="iris-compare-container" id="irisCompare">
+                    <img class="iris-compare-base" src="iris1.png" alt="Iris 1">
+                    <div class="iris-compare-overlay" id="irisOverlay">
+                        <img class="iris-compare-top" src="iris3.png" alt="Iris 3">
+                    </div>
+                    <div class="iris-compare-slider" id="irisSlider"></div>
+                    <div class="iris-label iris-label-left">EMERGENCY: OPEN SYSTEM</div>
+                    <div class="iris-label iris-label-right">BASELINE: CLOSED SYSTEM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-compare-container" id="imageCompare">
+            <img class="image-compare-base" src="v1.png" alt="Background 1">
+            <div class="image-compare-overlay" id="overlay">
+                <img class="image-compare-top" src="v2.png" alt="Background 2">
+            </div>
+            <div class="image-compare-v15-overlay" id="v15Overlay">
+                <img src="v1.5.png" alt="V1.5 Overlay">
+            </div>
+            <div class="image-compare-slider" id="sliderLeft"></div>
+            <div class="image-compare-slider" id="sliderRight"></div>
+        </div>
+        
+        <div class="overlays-container">
+            <img class="helicopter-overlay" src="helicopter.gif" alt="Helicopter Animation">
+            <img class="cloud-overlay" src="cloud.png" alt="Cloud Overlay">
+            <img class="cloud-overlay cloud-overlay-2" src="cloud.png" alt="Second Cloud Overlay">
+        </div>
+
+        <div class="content">
+          <h1>THE EAVE</h1>
+
+          <p class="desc desc--show" id="project-desc">
+            The Eave is a metropolitan shelter designed to address the vulnerabilities of dense cities like New York, whose extreme infrastructure and population density were exposed during the 2020 pandemic. Serving dual functions, it operates as a regular facility in normal times and expands above ground during emergencies to provide healthcare, living space, and education programs for displaced residents. Inspired by the form of a protective umbrella, The Eave relieves overcrowded hospitals, prioritizes those in need, and supports long-term recovery by helping residents reenter the workforce—transforming individual shelter into city-scale protection.
+          </p>
+        </div>
+    </main>
+
+  <script>
+    // Iris modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const irisButton = document.getElementById('irisButton');
+        const irisModal = document.getElementById('irisModal');
+        const irisCompare = document.getElementById('irisCompare');
+        const irisOverlay = document.getElementById('irisOverlay');
+        const irisSlider = document.getElementById('irisSlider');
+        const irisBase = document.querySelector('.iris-compare-base');
+        const irisTop = document.querySelector('.iris-compare-top');
+        let scrollPosition = 0;
+        let isDragging = false;
+
+        function updateIrisSlider(e) {
+            const rect = irisCompare.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const percentage = (mouseX / rect.width) * 100;
+            const clampedPercentage = Math.max(0, Math.min(100, percentage));
+            
+            irisOverlay.style.width = clampedPercentage + '%';
+            irisSlider.style.left = clampedPercentage + '%';
+            
+            // Hide/show labels based on slider position
+            const labelLeft = document.querySelector('.iris-label-left');
+            const labelRight = document.querySelector('.iris-label-right');
+            
+            // Hide left label when slider is over it (roughly 0-20%)
+            if (clampedPercentage < 20) {
+                labelLeft.classList.add('hidden');
+            } else {
+                labelLeft.classList.remove('hidden');
+            }
+            
+            // Hide right label when slider is over it (roughly 80-100%)
+            if (clampedPercentage > 80) {
+                labelRight.classList.add('hidden');
+            } else {
+                labelRight.classList.remove('hidden');
+            }
+        }
+
+        function startDrag(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            isDragging = true;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+                updateIrisSlider(e);
+            }
+        }
+
+        irisButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            scrollPosition = window.pageYOffset;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = scrollbarWidth + 'px';
+            document.body.classList.add('no-scroll');
+            document.body.style.top = `-${scrollPosition}px`;
+            irisModal.classList.add('active');
+            
+            setTimeout(function() {
+                const rect = irisCompare.getBoundingClientRect();
+                const baseRect = irisBase.getBoundingClientRect();
+                
+                irisOverlay.style.height = baseRect.height + 'px';
+                irisTop.style.height = baseRect.height + 'px';
+                irisTop.style.width = baseRect.width + 'px';
+                
+                irisOverlay.style.width = '50%';
+                irisSlider.style.left = '50%';
+            }, 100);
+        });
+
+        function closeModal() {
+            irisModal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            document.body.style.top = '';
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, scrollPosition);
+        }
+
+        irisModal.addEventListener('click', function(e) {
+            if (e.target === irisModal) {
+                closeModal();
+            }
+        });
+
+        irisSlider.addEventListener('mousedown', startDrag);
+        irisCompare.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+
+        irisCompare.addEventListener('click', function(e) {
+            e.stopPropagation();
+            updateIrisSlider(e);
+        });
+
+        irisSlider.addEventListener('touchstart', startDrag);
+        irisCompare.addEventListener('touchstart', startDrag);
+        document.addEventListener('touchend', stopDrag);
+        document.addEventListener('touchmove', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                updateIrisSlider(touch);
+            }
+        });
+
+        irisBase.onload = function() {
+            const baseRect = irisBase.getBoundingClientRect();
+            
+            irisOverlay.style.height = baseRect.height + 'px';
+            irisTop.style.height = baseRect.height + 'px';
+            irisTop.style.width = baseRect.width + 'px';
+            
+            irisOverlay.style.width = '50%';
+            irisSlider.style.left = '50%';
+        }
+        
+        irisTop.onload = function() {
+            const baseRect = irisBase.getBoundingClientRect();
+            irisTop.style.height = baseRect.height + 'px';
+            irisTop.style.width = baseRect.width + 'px';
+        }
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('imageCompare');
+        const overlay = document.getElementById('overlay');
+        const sliderLeft = document.getElementById('sliderLeft');
+        const sliderRight = document.getElementById('sliderRight');
+        const v15Overlay = document.getElementById('v15Overlay');
+        const baseImage = document.querySelector('.image-compare-base');
+        const topImage = document.querySelector('.image-compare-top');
+        const paragraph = document.getElementById('project-desc');
+        let isDragging = false;
+        let dragSide = null;
+        let slidersEnabled = false;
+
+        function checkSliderVisibility() {
+            const paragraphRect = paragraph.getBoundingClientRect();
+            
+            if (paragraphRect.bottom < 0 && !slidersEnabled) {
+                slidersEnabled = true;
+                sliderLeft.classList.add('active');
+                sliderRight.classList.add('active');
+            } else if (paragraphRect.bottom >= 0 && slidersEnabled) {
+                slidersEnabled = false;
+                sliderLeft.classList.remove('active');
+                sliderRight.classList.remove('active');
+            }
+        }
+
+        window.addEventListener('scroll', checkSliderVisibility);
+
+        function updateSliders(e) {
+            if (!slidersEnabled) return;
+            
+            const rect = container.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const centerX = rect.width / 2;
+            
+            if (dragSide === null) {
+                dragSide = mouseX < centerX ? 'left' : 'right';
+            }
+            
+            let distanceFromCenter = 0;
+            
+            if (dragSide === 'left') {
+                distanceFromCenter = Math.max(0, centerX - mouseX);
+            } else {
+                distanceFromCenter = Math.max(0, mouseX - centerX);
+            }
+            
+            const maxDistance = rect.width / 2;
+            const revealPercentage = Math.min((distanceFromCenter / maxDistance) * 100, 100);
+            
+            overlay.style.width = revealPercentage + '%';
+            
+            const offsetFromCenter = (revealPercentage / 100) * (rect.width / 2);
+            sliderLeft.style.left = (rect.left + centerX - offsetFromCenter) + 'px';
+            sliderRight.style.left = (rect.left + centerX + offsetFromCenter) + 'px';
+        }
+
+        function startDrag(e) {
+            if (!slidersEnabled) return;
+            e.preventDefault();
+            isDragging = true;
+            dragSide = null;
+            v15Overlay.classList.add('active');
+        }
+
+        function stopDrag() {
+            if (isDragging) {
+                isDragging = false;
+                dragSide = null;
+                v15Overlay.classList.remove('active');
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                updateSliders(e);
+            }
+        }
+
+        sliderLeft.addEventListener('mousedown', startDrag);
+        sliderRight.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+
+        container.addEventListener('click', function(e) {
+            if (!slidersEnabled) return;
+            dragSide = null;
+            updateSliders(e);
+            dragSide = null;
+        });
+
+        sliderLeft.addEventListener('touchstart', startDrag);
+        sliderRight.addEventListener('touchstart', startDrag);
+        document.addEventListener('touchend', stopDrag);
+
+        document.addEventListener('touchmove', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                updateSliders(touch);
+            }
+        });
+
+        baseImage.onload = function() {
+            const imageHeight = baseImage.offsetHeight;
+            const imageWidth = baseImage.offsetWidth;
+            const rect = container.getBoundingClientRect();
+            
+            overlay.style.height = imageHeight + 'px';
+            v15Overlay.style.height = imageHeight + 'px';
+            
+            topImage.style.width = imageWidth + 'px';
+            topImage.style.height = imageHeight + 'px';
+            
+            overlay.style.width = '0%';
+            const centerX = rect.left + (rect.width / 2);
+            sliderLeft.style.left = centerX + 'px';
+            sliderRight.style.left = centerX + 'px';
+        }
+
+        window.addEventListener('resize', function() {
+            const imageHeight = baseImage.offsetHeight;
+            const imageWidth = baseImage.offsetWidth;
+            const rect = container.getBoundingClientRect();
+            
+            overlay.style.height = imageHeight + 'px';
+            v15Overlay.style.height = imageHeight + 'px';
+            
+            topImage.style.width = imageWidth + 'px';
+            topImage.style.height = imageHeight + 'px';
+            
+            const currentWidth = parseFloat(overlay.style.width) || 0;
+            const centerX = rect.width / 2;
+            const offsetFromCenter = (currentWidth / 100) * (rect.width / 2);
+            sliderLeft.style.left = (rect.left + centerX - offsetFromCenter) + 'px';
+            sliderRight.style.left = (rect.left + centerX + offsetFromCenter) + 'px';
+        });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const helicopter = document.querySelector('.helicopter-overlay');
+        const initialTop = 10;
+        const maxTop = 30;
+        
+        window.addEventListener('scroll', function() {
+            const scrollPos = window.scrollY;
+            let newTop = initialTop + (scrollPos * 0.05);
+            
+            if (newTop < maxTop) {
+                helicopter.style.top = `${newTop}%`;
+            }
+        });
+    });
+  </script>
+
+  <script>
+    (function () {
+        const factor = 0.10; 
+        let ctrlDown = false;
+        
+        document.addEventListener('keydown', function(e) { 
+            if (e.ctrlKey || e.metaKey) ctrlDown = true; 
+        });
+        
+        document.addEventListener('keyup', function(e) { 
+            if (!e.ctrlKey && !e.metaKey) ctrlDown = false;
+        });
+
+        window.addEventListener('wheel', function (e) {
+            if (ctrlDown) return;
+            
+            const el = e.target.closest('*');
+            if (el) {
+                const style = getComputedStyle(el);
+                const canScrollY = el.scrollHeight > el.clientHeight && 
+                                 (style.overflowY === 'auto' || style.overflowY === 'scroll');
+                const canScrollX = el.scrollWidth > el.clientWidth && 
+                                 (style.overflowX === 'auto' || style.overflowX === 'scroll');
+                if (canScrollY || canScrollX) return;
+            }
+            
+            e.preventDefault();
+            window.scrollBy({
+                top: e.deltaY * factor,
+                left: 0,
+                behavior: 'auto'
+            });
+        }, { passive: false });
+    })();
+  </script>
+</body>
+</html>
