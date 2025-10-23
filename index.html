@@ -179,7 +179,7 @@
         font-weight: 600;
         letter-spacing: .06em;
         line-height: 1.2;
-        font-size: clamp(2rem, 8vw, 5rem);
+        font-size: clamp(1.8rem, 7vw, 4.5rem);
         opacity: 0.7;
         animation: titleFadeIn 3s ease-out forwards;
         font-family: 'Roboto', sans-serif;
@@ -187,7 +187,7 @@
 
     @supports (font-size:1cqw){ 
         .content h1{ 
-            font-size: clamp(2rem, 8cqw, 5rem);
+            font-size: clamp(1.8rem, 7cqw, 4.5rem);
         } 
     }
 
@@ -221,6 +221,8 @@
       display: block;
       animation: fadeInParagraph 2s ease-out 1s forwards;
       font-size: clamp(.4rem, 1.6vw, 1.15rem);
+      filter: blur(0px);
+      opacity: 0;
     }
 
     @supports (font-size:1cqw) {
@@ -304,13 +306,106 @@
         z-index: 3;
     }
 
+    .image1-overlay {
+        position: absolute;
+        top: 35%;
+        left: 15%;
+        transform: translate(-50%, -50%);
+        width: 20%;
+        height: auto;
+        opacity: 0.2;
+        z-index: 3;
+        pointer-events: auto;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .image1-overlay:hover {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .image2-overlay {
+        position: absolute;
+        top: 50%;
+        left: 15%;
+        transform: translate(-50%, -50%);
+        width: 21%;
+        height: auto;
+        opacity: 0.2;
+        z-index: 3;
+        pointer-events: auto;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .image2-overlay:hover {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .image3-overlay {
+        position: absolute;
+        top: 68%;
+        left: 14.9%;
+        transform: translate(-50%, -50%);
+        width: 21%;
+        height: auto;
+        opacity: 0.3;
+        z-index: 3;
+        pointer-events: auto;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .image3-overlay:hover {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    @media (max-width: 768px) {
+        .image1-overlay {
+            width: 30%;
+            left: 20%;
+        }
+        .image1-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+        
+        .image2-overlay {
+            width: 31%;
+            left: 20%;
+        }
+        .image2-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+        
+        .image3-overlay {
+            width: 31%;
+            left: 19.9%;
+        }
+        .image3-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+    }
+
+    @keyframes flashButton {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+
+    /* IRIS BUTTON */
     .iris-button {
         position: absolute;
         top: 33%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
         background: rgba(255, 255, 255, 0.3);
         border: 2px solid rgba(255, 255, 255, 0.5);
         border-radius: 50%;
@@ -333,30 +428,21 @@
     }
 
     .iris-button::before {
-        width: 12px;
+        width: 14px;
         height: 2px;
     }
 
     .iris-button::after {
         width: 2px;
-        height: 12px;
+        height: 14px;
     }
 
     .iris-button:hover::before {
-        width: 16px;
+        width: 18px;
     }
 
     .iris-button:hover::after {
-        height: 16px;
-    }
-
-    @keyframes flashButton {
-        0%, 100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0.4;
-        }
+        height: 18px;
     }
 
     .iris-button.active {
@@ -370,6 +456,7 @@
         animation: none;
     }
 
+    /* IRIS MODAL */
     .iris-modal {
         position: fixed;
         top: 0;
@@ -541,13 +628,14 @@
         }
     }
 
+    /* RESI BUTTON */
     .resi-button {
         position: absolute;
         top: 55%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
         background: rgba(255, 255, 255, 0.3);
         border: 2px solid rgba(255, 255, 255, 0.5);
         border-radius: 50%;
@@ -570,21 +658,21 @@
     }
 
     .resi-button::before {
-        width: 12px;
+        width: 14px;
         height: 2px;
     }
 
     .resi-button::after {
         width: 2px;
-        height: 12px;
+        height: 14px;
     }
 
     .resi-button:hover::before {
-        width: 16px;
+        width: 18px;
     }
 
     .resi-button:hover::after {
-        height: 16px;
+        height: 18px;
     }
 
     .resi-button.active {
@@ -598,6 +686,7 @@
         animation: none;
     }
 
+    /* RESI MODAL */
     .resi-modal {
         position: fixed;
         top: 0;
@@ -769,13 +858,14 @@
         }
     }
 
+    /* RM BUTTON */
     .rm-button {
         position: absolute;
-        top: 65%;
+        top: 63%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
         background: rgba(255, 255, 255, 0.3);
         border: 2px solid rgba(255, 255, 255, 0.5);
         border-radius: 50%;
@@ -798,21 +888,21 @@
     }
 
     .rm-button::before {
-        width: 12px;
+        width: 14px;
         height: 2px;
     }
 
     .rm-button::after {
         width: 2px;
-        height: 12px;
+        height: 14px;
     }
 
     .rm-button:hover::before {
-        width: 16px;
+        width: 18px;
     }
 
     .rm-button:hover::after {
-        height: 16px;
+        height: 18px;
     }
 
     .rm-button.active {
@@ -826,6 +916,7 @@
         animation: none;
     }
 
+    /* RM MODAL */
     .rm-modal {
         position: fixed;
         top: 0;
@@ -996,6 +1087,109 @@
             right: 3%;
         }
     }
+
+    /* RENDER BUTTON */
+    .render-button {
+        position: absolute;
+        bottom: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        opacity: 1;
+    }
+
+    .render-button::before,
+    .render-button::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+    }
+
+    .render-button::before {
+        width: 14px;
+        height: 2px;
+    }
+
+    .render-button::after {
+        width: 2px;
+        height: 14px;
+    }
+
+    .render-button:hover::before {
+        width: 18px;
+    }
+
+    .render-button:hover::after {
+        height: 18px;
+    }
+
+    .render-button.active {
+        opacity: 1;
+        animation: flashButton 2s ease-in-out infinite;
+    }
+
+    .render-button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translate(-50%, -50%) scale(1.5);
+        animation: none;
+    }
+
+    /* RENDER MODAL */
+    .render-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .render-modal.active {
+        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .render-modal-content {
+        position: relative;
+        max-width: 60vw;
+        max-height: 60vh;
+    }
+
+    .render-modal-content img {
+        max-width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+        .render-modal-content {
+            max-width: 80vw;
+            max-height: 70vh;
+        }
+        .render-modal-content img {
+            max-height: 70vh;
+        }
+    }
   </style>
 </head>
 <body>
@@ -1005,6 +1199,7 @@
         <button class="iris-button active" id="irisButton"></button>
         <button class="resi-button active" id="resiButton"></button>
         <button class="rm-button active" id="rmButton"></button>
+        <button class="render-button active" id="renderButton"></button>
 
         <div class="iris-modal" id="irisModal">
             <div class="iris-modal-content">
@@ -1023,14 +1218,14 @@
 
         <div class="resi-modal" id="resiModal">
             <div class="resi-modal-content">
-                <div class="resi-modal-title">OFFICE/RESIDENTIAL EXPANSION SYSTEM</div>
+                <div class="resi-modal-title">WORKSPACE/RESIDENTIAL EXPANSION SYSTEM</div>
                 <div class="resi-compare-container" id="resiCompare">
                     <img class="resi-compare-base" src="resi1.png" alt="Resi 1">
                     <div class="resi-compare-overlay" id="resiOverlay">
                         <img class="resi-compare-top" src="resi2.png" alt="Resi 2">
                     </div>
                     <div class="resi-compare-slider" id="resiSlider"></div>
-                    <div class="resi-label resi-label-left">EMERGENCY: APARTMENTS</div>
+                    <div class="resi-label resi-label-left">EMERGENCY: RESIDENTIAL</div>
                     <div class="resi-label resi-label-right">BASELINE: WORKSPACES</div>
                 </div>
             </div>
@@ -1038,7 +1233,7 @@
 
         <div class="rm-modal" id="rmModal">
             <div class="rm-modal-content">
-                <div class="rm-modal-title">ROOM EXPANSION SYSTEM</div>
+                <div class="rm-modal-title">ZOOMED-IN ROOM EXPANSION SYSTEM</div>
                 <div class="rm-compare-container" id="rmCompare">
                     <img class="rm-compare-base" src="rm1.png" alt="RM 1">
                     <div class="rm-compare-overlay" id="rmOverlay">
@@ -1048,6 +1243,12 @@
                     <div class="rm-label rm-label-left">EMERGENCY: ROOM</div>
                     <div class="rm-label rm-label-right">BASELINE: OFFICE</div>
                 </div>
+            </div>
+        </div>
+
+        <div class="render-modal" id="renderModal">
+            <div class="render-modal-content">
+                <img src="render.png" alt="Render">
             </div>
         </div>
 
@@ -1067,6 +1268,9 @@
             <img class="helicopter-overlay" src="helicopter.gif" alt="Helicopter Animation">
             <img class="cloud-overlay" src="cloud.png" alt="Cloud Overlay">
             <img class="cloud-overlay cloud-overlay-2" src="cloud.png" alt="Second Cloud Overlay">
+            <img class="image1-overlay" src="Image 1.png" alt="Image 1">
+            <img class="image2-overlay" src="Image 2.png" alt="Image 2">
+            <img class="image3-overlay" src="Image 3.png" alt="Image 3">
         </div>
 
         <div class="content">
@@ -1100,18 +1304,15 @@
             irisOverlay.style.width = clampedPercentage + '%';
             irisSlider.style.left = clampedPercentage + '%';
             
-            // Hide/show labels based on slider position
             const labelLeft = document.querySelector('.iris-label-left');
             const labelRight = document.querySelector('.iris-label-right');
             
-            // Hide left label when slider is over it (roughly 0-20%)
             if (clampedPercentage < 20) {
                 labelLeft.classList.add('hidden');
             } else {
                 labelLeft.classList.remove('hidden');
             }
             
-            // Hide right label when slider is over it (roughly 80-100%)
             if (clampedPercentage > 80) {
                 labelRight.classList.add('hidden');
             } else {
@@ -1147,7 +1348,6 @@
             irisModal.classList.add('active');
             
             setTimeout(function() {
-                const rect = irisCompare.getBoundingClientRect();
                 const baseRect = irisBase.getBoundingClientRect();
                 
                 irisOverlay.style.height = baseRect.height + 'px';
@@ -1235,18 +1435,15 @@
             resiOverlay.style.width = clampedPercentage + '%';
             resiSlider.style.left = clampedPercentage + '%';
             
-            // Hide/show labels based on slider position
             const labelLeft = document.querySelector('.resi-label-left');
             const labelRight = document.querySelector('.resi-label-right');
             
-            // Hide left label when slider is over it (roughly 0-20%)
             if (clampedPercentage < 20) {
                 labelLeft.classList.add('hidden');
             } else {
                 labelLeft.classList.remove('hidden');
             }
             
-            // Hide right label when slider is over it (roughly 80-100%)
             if (clampedPercentage > 80) {
                 labelRight.classList.add('hidden');
             } else {
@@ -1282,7 +1479,6 @@
             resiModal.classList.add('active');
             
             setTimeout(function() {
-                const rect = resiCompare.getBoundingClientRect();
                 const baseRect = resiBase.getBoundingClientRect();
                 
                 resiOverlay.style.height = baseRect.height + 'px';
@@ -1370,18 +1566,15 @@
             rmOverlay.style.width = clampedPercentage + '%';
             rmSlider.style.left = clampedPercentage + '%';
             
-            // Hide/show labels based on slider position
             const labelLeft = document.querySelector('.rm-label-left');
             const labelRight = document.querySelector('.rm-label-right');
             
-            // Hide left label when slider is over it (roughly 0-20%)
             if (clampedPercentage < 20) {
                 labelLeft.classList.add('hidden');
             } else {
                 labelLeft.classList.remove('hidden');
             }
             
-            // Hide right label when slider is over it (roughly 80-100%)
             if (clampedPercentage > 80) {
                 labelRight.classList.add('hidden');
             } else {
@@ -1417,7 +1610,6 @@
             rmModal.classList.add('active');
             
             setTimeout(function() {
-                const rect = rmCompare.getBoundingClientRect();
                 const baseRect = rmBase.getBoundingClientRect();
                 
                 rmOverlay.style.height = baseRect.height + 'px';
@@ -1644,6 +1836,42 @@
   </script>
 
   <script>
+    // Paragraph blur on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const paragraph = document.getElementById('project-desc');
+        let animationComplete = false;
+        
+        // Wait for the fade-in animation to complete (3 seconds total: 1s delay + 2s animation)
+        setTimeout(function() {
+            animationComplete = true;
+        }, 3100);
+        
+        function updateBlur() {
+            if (!animationComplete) return; // Don't interfere with animation
+            
+            const rect = paragraph.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Start blur when paragraph reaches middle of screen
+            const triggerPoint = windowHeight * 0.5;
+            const scrollProgress = Math.max(0, Math.min(1, (triggerPoint - rect.bottom) / triggerPoint));
+            
+            // Only apply blur if scrollProgress is greater than 0
+            if (scrollProgress > 0) {
+                const blurAmount = scrollProgress * 10;
+                paragraph.style.filter = `blur(${blurAmount}px)`;
+                paragraph.style.opacity = 1 - (scrollProgress * 0.7);
+            } else {
+                paragraph.style.filter = 'blur(0px)';
+                paragraph.style.opacity = 1;
+            }
+        }
+        
+        window.addEventListener('scroll', updateBlur);
+    });
+  </script>
+
+  <script>
     (function () {
         const factor = 0.10; 
         let ctrlDown = false;
@@ -1677,6 +1905,39 @@
             });
         }, { passive: false });
     })();
+  </script>
+
+  <script>
+    // Render modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const renderButton = document.getElementById('renderButton');
+        const renderModal = document.getElementById('renderModal');
+        let scrollPosition = 0;
+
+        renderButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            scrollPosition = window.pageYOffset;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = scrollbarWidth + 'px';
+            document.body.classList.add('no-scroll');
+            document.body.style.top = `-${scrollPosition}px`;
+            renderModal.classList.add('active');
+        });
+
+        function closeModal() {
+            renderModal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            document.body.style.top = '';
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, scrollPosition);
+        }
+
+        renderModal.addEventListener('click', function(e) {
+            if (e.target === renderModal) {
+                closeModal();
+            }
+        });
+    });
   </script>
 </body>
 </html>
