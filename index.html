@@ -400,6 +400,28 @@
         max-height: 600px;
     }
 
+    .iris-modal-title {
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        z-index: 12;
+    }
+
+    @media (max-width: 768px) {
+        .iris-modal-title {
+            font-size: 14px;
+            top: -40px;
+        }
+    }
+
     .iris-compare-container {
         position: relative;
         width: 100%;
@@ -518,6 +540,234 @@
             right: 3%;
         }
     }
+
+    .resi-button {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 25px;
+        height: 25px;
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        opacity: 1;
+    }
+
+    .resi-button::before,
+    .resi-button::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+    }
+
+    .resi-button::before {
+        width: 12px;
+        height: 2px;
+    }
+
+    .resi-button::after {
+        width: 2px;
+        height: 12px;
+    }
+
+    .resi-button:hover::before {
+        width: 16px;
+    }
+
+    .resi-button:hover::after {
+        height: 16px;
+    }
+
+    .resi-button.active {
+        opacity: 1;
+        animation: flashButton 2s ease-in-out infinite;
+    }
+
+    .resi-button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translate(-50%, -50%) scale(1.5);
+        animation: none;
+    }
+
+    .resi-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .resi-modal.active {
+        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .resi-modal-content {
+        position: relative;
+        width: 60vw;
+        max-width: 600px;
+        height: 60vh;
+        max-height: 600px;
+    }
+
+    .resi-modal-title {
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        z-index: 12;
+    }
+
+    @media (max-width: 768px) {
+        .resi-modal-title {
+            font-size: 14px;
+            top: -40px;
+        }
+    }
+
+    .resi-compare-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: ew-resize;
+    }
+
+    .resi-compare-base {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+    }
+
+    .resi-compare-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .resi-compare-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: auto;
+        max-width: none;
+        object-fit: contain;
+    }
+
+    .resi-compare-slider {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 10;
+        cursor: ew-resize;
+        transform: translateX(-50%);
+    }
+
+    .resi-compare-slider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .resi-compare-slider::after {
+        content: '⟷';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: rgba(0, 0, 0, 0.8);
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 1;
+    }
+
+    .resi-label {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        pointer-events: none;
+        z-index: 11;
+        white-space: nowrap;
+        transition: opacity 0.3s ease;
+    }
+
+    .resi-label-left {
+        left: 5%;
+    }
+
+    .resi-label-right {
+        right: 5%;
+    }
+
+    .resi-label-left.hidden {
+        opacity: 0;
+    }
+
+    .resi-label-right.hidden {
+        opacity: 0;
+    }
+
+    @media (max-width: 768px) {
+        .resi-label {
+            font-size: 10px;
+        }
+        .resi-label-left {
+            left: 3%;
+        }
+        .resi-label-right {
+            right: 3%;
+        }
+    }
   </style>
 </head>
 <body>
@@ -525,9 +775,11 @@
         <div class="hero__brand">WANLU LIU</div>
 
         <button class="iris-button active" id="irisButton"></button>
+        <button class="resi-button active" id="resiButton"></button>
 
         <div class="iris-modal" id="irisModal">
             <div class="iris-modal-content">
+                <div class="iris-modal-title">IRIS EXPANSION SYSTEM</div>
                 <div class="iris-compare-container" id="irisCompare">
                     <img class="iris-compare-base" src="iris1.png" alt="Iris 1">
                     <div class="iris-compare-overlay" id="irisOverlay">
@@ -536,6 +788,21 @@
                     <div class="iris-compare-slider" id="irisSlider"></div>
                     <div class="iris-label iris-label-left">EMERGENCY: OPEN SYSTEM</div>
                     <div class="iris-label iris-label-right">BASELINE: CLOSED SYSTEM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resi-modal" id="resiModal">
+            <div class="resi-modal-content">
+                <div class="resi-modal-title">RESIDENTIAL EXPANSION SYSTEM</div>
+                <div class="resi-compare-container" id="resiCompare">
+                    <img class="resi-compare-base" src="resi1.png" alt="Resi 1">
+                    <div class="resi-compare-overlay" id="resiOverlay">
+                        <img class="resi-compare-top" src="resi2.png" alt="Resi 2">
+                    </div>
+                    <div class="resi-compare-slider" id="resiSlider"></div>
+                    <div class="resi-label resi-label-left">EMERGENCY: OPEN SYSTEM</div>
+                    <div class="resi-label resi-label-right">BASELINE: CLOSED SYSTEM</div>
                 </div>
             </div>
         </div>
@@ -698,6 +965,141 @@
             const baseRect = irisBase.getBoundingClientRect();
             irisTop.style.height = baseRect.height + 'px';
             irisTop.style.width = baseRect.width + 'px';
+        }
+    });
+  </script>
+
+  <script>
+    // Resi modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const resiButton = document.getElementById('resiButton');
+        const resiModal = document.getElementById('resiModal');
+        const resiCompare = document.getElementById('resiCompare');
+        const resiOverlay = document.getElementById('resiOverlay');
+        const resiSlider = document.getElementById('resiSlider');
+        const resiBase = document.querySelector('.resi-compare-base');
+        const resiTop = document.querySelector('.resi-compare-top');
+        let scrollPosition = 0;
+        let isDragging = false;
+
+        function updateResiSlider(e) {
+            const rect = resiCompare.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const percentage = (mouseX / rect.width) * 100;
+            const clampedPercentage = Math.max(0, Math.min(100, percentage));
+            
+            resiOverlay.style.width = clampedPercentage + '%';
+            resiSlider.style.left = clampedPercentage + '%';
+            
+            // Hide/show labels based on slider position
+            const labelLeft = document.querySelector('.resi-label-left');
+            const labelRight = document.querySelector('.resi-label-right');
+            
+            // Hide left label when slider is over it (roughly 0-20%)
+            if (clampedPercentage < 20) {
+                labelLeft.classList.add('hidden');
+            } else {
+                labelLeft.classList.remove('hidden');
+            }
+            
+            // Hide right label when slider is over it (roughly 80-100%)
+            if (clampedPercentage > 80) {
+                labelRight.classList.add('hidden');
+            } else {
+                labelRight.classList.remove('hidden');
+            }
+        }
+
+        function startDrag(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            isDragging = true;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+                updateResiSlider(e);
+            }
+        }
+
+        resiButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            scrollPosition = window.pageYOffset;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = scrollbarWidth + 'px';
+            document.body.classList.add('no-scroll');
+            document.body.style.top = `-${scrollPosition}px`;
+            resiModal.classList.add('active');
+            
+            setTimeout(function() {
+                const rect = resiCompare.getBoundingClientRect();
+                const baseRect = resiBase.getBoundingClientRect();
+                
+                resiOverlay.style.height = baseRect.height + 'px';
+                resiTop.style.height = baseRect.height + 'px';
+                resiTop.style.width = baseRect.width + 'px';
+                
+                resiOverlay.style.width = '50%';
+                resiSlider.style.left = '50%';
+            }, 100);
+        });
+
+        function closeModal() {
+            resiModal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            document.body.style.top = '';
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, scrollPosition);
+        }
+
+        resiModal.addEventListener('click', function(e) {
+            if (e.target === resiModal) {
+                closeModal();
+            }
+        });
+
+        resiSlider.addEventListener('mousedown', startDrag);
+        resiCompare.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+
+        resiCompare.addEventListener('click', function(e) {
+            e.stopPropagation();
+            updateResiSlider(e);
+        });
+
+        resiSlider.addEventListener('touchstart', startDrag);
+        resiCompare.addEventListener('touchstart', startDrag);
+        document.addEventListener('touchend', stopDrag);
+        document.addEventListener('touchmove', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                updateResiSlider(touch);
+            }
+        });
+
+        resiBase.onload = function() {
+            const baseRect = resiBase.getBoundingClientRect();
+            
+            resiOverlay.style.height = baseRect.height + 'px';
+            resiTop.style.height = baseRect.height + 'px';
+            resiTop.style.width = baseRect.width + 'px';
+            
+            resiOverlay.style.width = '50%';
+            resiSlider.style.left = '50%';
+        }
+        
+        resiTop.onload = function() {
+            const baseRect = resiBase.getBoundingClientRect();
+            resiTop.style.height = baseRect.height + 'px';
+            resiTop.style.width = baseRect.width + 'px';
         }
     });
   </script>
