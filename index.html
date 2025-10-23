@@ -179,7 +179,7 @@
         font-weight: 600;
         letter-spacing: .06em;
         line-height: 1.2;
-        font-size: clamp(1.8rem, 7vw, 4.5rem);
+        font-size: clamp(1.9rem, 7.5vw, 4.7rem);
         opacity: 0.7;
         animation: titleFadeIn 3s ease-out forwards;
         font-family: 'Roboto', sans-serif;
@@ -187,7 +187,7 @@
 
     @supports (font-size:1cqw){ 
         .content h1{ 
-            font-size: clamp(1.8rem, 7cqw, 4.5rem);
+            font-size: clamp(1.9rem, 7.5cqw, 4.7rem);
         } 
     }
 
@@ -306,14 +306,24 @@
         z-index: 3;
     }
 
+    .overlays-container > * {
+        pointer-events: auto;
+    }
+
+    .overlays-container .cloud-overlay,
+    .overlays-container .cloud-overlay-2,
+    .overlays-container .helicopter-overlay {
+        pointer-events: none;
+    }
+
     .image1-overlay {
         position: absolute;
-        top: 35%;
+        top: 38%;
         left: 15%;
         transform: translate(-50%, -50%);
         width: 20%;
         height: auto;
-        opacity: 0.2;
+        opacity: 0.4;
         z-index: 3;
         pointer-events: auto;
         transition: all 0.3s ease;
@@ -327,12 +337,12 @@
 
     .image2-overlay {
         position: absolute;
-        top: 50%;
+        top: 57%;
         left: 15%;
         transform: translate(-50%, -50%);
         width: 21%;
         height: auto;
-        opacity: 0.2;
+        opacity: 0.4;
         z-index: 3;
         pointer-events: auto;
         transition: all 0.3s ease;
@@ -346,12 +356,12 @@
 
     .image3-overlay {
         position: absolute;
-        top: 68%;
+        top: 75%;
         left: 14.9%;
         transform: translate(-50%, -50%);
         width: 21%;
         height: auto;
-        opacity: 0.3;
+        opacity: 0.4;
         z-index: 3;
         pointer-events: auto;
         transition: all 0.3s ease;
@@ -1190,6 +1200,89 @@
             max-height: 70vh;
         }
     }
+
+    /* IMAGE MODALS */
+    .image-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .image-modal.active {
+        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .image-modal-content {
+        position: relative;
+        max-width: 60vw;
+        max-height: 60vh;
+    }
+
+    .image-modal-content img {
+        max-width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+        .image-modal-content {
+            max-width: 75vw;
+            max-height: 65vh;
+        }
+        .image-modal-content img {
+            max-height: 65vh;
+        }
+    }
+
+    #image1Modal .image-modal-content {
+        max-width: 52vw;
+        max-height: 52vh;
+    }
+
+    #image1Modal .image-modal-content img {
+        max-height: 52vh;
+    }
+
+    @media (max-width: 768px) {
+        #image1Modal .image-modal-content {
+            max-width: 67vw;
+            max-height: 57vh;
+        }
+        #image1Modal .image-modal-content img {
+            max-height: 57vh;
+        }
+    }
+
+    #image2Modal .image-modal-content {
+        max-width: 70vw;
+        max-height: 70vh;
+    }
+
+    #image2Modal .image-modal-content img {
+        max-height: 70vh;
+    }
+
+    @media (max-width: 768px) {
+        #image2Modal .image-modal-content {
+            max-width: 85vw;
+            max-height: 75vh;
+        }
+        #image2Modal .image-modal-content img {
+            max-height: 75vh;
+        }
+    }
   </style>
 </head>
 <body>
@@ -1249,6 +1342,24 @@
         <div class="render-modal" id="renderModal">
             <div class="render-modal-content">
                 <img src="render.png" alt="Render">
+            </div>
+        </div>
+
+        <div class="image-modal" id="image1Modal">
+            <div class="image-modal-content">
+                <img src="Image 1.png" alt="Image 1">
+            </div>
+        </div>
+
+        <div class="image-modal" id="image2Modal">
+            <div class="image-modal-content">
+                <img src="Image 2.png" alt="Image 2">
+            </div>
+        </div>
+
+        <div class="image-modal" id="image3Modal">
+            <div class="image-modal-content">
+                <img src="Image 3.png" alt="Image 3">
             </div>
         </div>
 
@@ -1935,6 +2046,69 @@
         renderModal.addEventListener('click', function(e) {
             if (e.target === renderModal) {
                 closeModal();
+            }
+        });
+    });
+  </script>
+
+  <script>
+    // Image overlay modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const image1 = document.querySelector('.image1-overlay');
+        const image2 = document.querySelector('.image2-overlay');
+        const image3 = document.querySelector('.image3-overlay');
+        const image1Modal = document.getElementById('image1Modal');
+        const image2Modal = document.getElementById('image2Modal');
+        const image3Modal = document.getElementById('image3Modal');
+        let scrollPosition = 0;
+
+        function openModal(modal) {
+            scrollPosition = window.pageYOffset;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = scrollbarWidth + 'px';
+            document.body.classList.add('no-scroll');
+            document.body.style.top = `-${scrollPosition}px`;
+            modal.classList.add('active');
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            document.body.style.top = '';
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, scrollPosition);
+        }
+
+        image1.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openModal(image1Modal);
+        });
+
+        image2.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openModal(image2Modal);
+        });
+
+        image3.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openModal(image3Modal);
+        });
+
+        image1Modal.addEventListener('click', function(e) {
+            if (e.target === image1Modal) {
+                closeModal(image1Modal);
+            }
+        });
+
+        image2Modal.addEventListener('click', function(e) {
+            if (e.target === image2Modal) {
+                closeModal(image2Modal);
+            }
+        });
+
+        image3Modal.addEventListener('click', function(e) {
+            if (e.target === image3Modal) {
+                closeModal(image3Modal);
             }
         });
     });
